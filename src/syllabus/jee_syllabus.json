@@ -1,0 +1,84 @@
+{
+  "exam": {
+    "name": "JEE Main 2025",
+    "start_date": "2025-09-26",
+    "end_date": "2025-12-30",
+    "subjects": [
+      {
+        "name": "Physics",
+        "weightage": 1.2,
+        "topics": [
+          {
+            "name": "Mechanics",
+            "weightage": 1.3,
+            "subtopics": [
+              {
+                "name": "Kinematics",
+                "weightage": 1.0,
+                "concepts": [
+                  {"name": "Position", "description": "Position of a particle in space", "estimated_time": 15, "weightage": 1.0, "resources": {}},
+                  {"name": "Distance and Displacement", "description": "Difference between distance and displacement", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Speed and Velocity", "description": "Definitions and equations", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Acceleration", "description": "Rate of change of velocity", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Projectile Motion", "description": "Equations and applications", "estimated_time": 25, "weightage": 1.1, "resources": {}},
+                  {"name": "Relative Velocity", "description": "Velocity relative to a frame of reference", "estimated_time": 20, "weightage": 1.0, "resources": {}}
+                ]
+              },
+              {
+                "name": "Laws of Motion and Friction",
+                "weightage": 1.1,
+                "concepts": [
+                  {"name": "Newton's Laws", "description": "First, second, and third laws of motion", "estimated_time": 30, "weightage": 1.2, "resources": {}},
+                  {"name": "Impulse", "description": "Change in momentum", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Conservation of Momentum", "description": "Linear momentum principles", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Static and Kinetic Friction", "description": "Types of friction", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Circular Motion", "description": "Centripetal and centrifugal forces", "estimated_time": 25, "weightage": 1.1, "resources": {}}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Chemistry",
+        "weightage": 1.1,
+        "topics": [
+          {
+            "name": "Physical Chemistry",
+            "weightage": 1.2,
+            "subtopics": [
+              {
+                "name": "Stoichiometry",
+                "weightage": 1.0,
+                "concepts": [
+                  {"name": "Mole Concept", "description": "Moles and molar mass calculations", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Limiting Reagent", "description": "Determine limiting reactant", "estimated_time": 20, "weightage": 1.0, "resources": {}}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathematics",
+        "weightage": 1.2,
+        "topics": [
+          {
+            "name": "Algebra",
+            "weightage": 1.1,
+            "subtopics": [
+              {
+                "name": "Sets, Relations, and Functions",
+                "weightage": 1.0,
+                "concepts": [
+                  {"name": "Set Theory Operations", "description": "Union, intersection, complement", "estimated_time": 20, "weightage": 1.0, "resources": {}},
+                  {"name": "Types of Functions", "description": "Domain, range, types", "estimated_time": 20, "weightage": 1.0, "resources": {}}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
