@@ -5,13 +5,20 @@ from rest_framework.response import Response
 from datetime import date
 from django.utils.dateparse import parse_date
 from .services import generate_ai_quiz, submit_quiz_results
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+
+
 
 class QuizViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     @action(detail=False, methods=["get"])
     def start(self, request):
         user = request.user
+        # user = User.objects.get(id=1)
+        print(user,"   hello    ......     ")
         study_date = request.query_params.get("date")
         study_date = parse_date(study_date) if study_date else date.today()
         questions = generate_ai_quiz(user, study_date)
@@ -20,6 +27,7 @@ class QuizViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["post"])
     def submit(self, request):
         user = request.user
+        # user = User.objects.get(id=1)
         study_date = request.data.get("study_date")
         study_date = parse_date(study_date) if study_date else date.today()
 

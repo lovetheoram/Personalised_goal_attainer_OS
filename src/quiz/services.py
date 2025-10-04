@@ -16,7 +16,7 @@ def generate_ai_quiz(user, study_date=None, num_questions=3):
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         temperature=0.3,
-        api_key="YOUR_SECURE_API_KEY"  # move to env vars
+        api_key="AIzaSyA27qjOISG9jkasJ4UtzxhuyoD1kNwsai0"  # move to env vars
     )
 
     for t in targets:

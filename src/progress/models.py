@@ -16,3 +16,5 @@ class UserConceptProgress(models.Model):
     last_studied = models.DateTimeField(null=True, blank=True)
     revision_count = models.IntegerField(default=0)
     carryover_flag = models.BooleanField(default=False)
+    points = models.IntegerField(default=0)       # For leaderboard
+    streak = models.IntegerField(default=0)  

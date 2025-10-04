@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 from .models import ChatSession, ChatMessage
 from .serializers import ChatSessionSerializer, ChatMessageSerializer
 from .services import detect_intent, handle_intent
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class ChatViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -13,6 +16,8 @@ class ChatViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def send(self, request):
         user = request.user
+        # user = User.objects.get(id=1)
+
         message = request.data.get("message", "").strip()
         session_id = request.data.get("session_id")
 
@@ -42,6 +47,8 @@ class ChatViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def history(self, request):
         user = request.user
+        # user = User.objects.get(id=1)
+
         session_id = request.query_params.get("session_id")
 
         if not session_id:

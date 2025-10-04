@@ -13,7 +13,7 @@ class UserProgressSerializer(serializers.ModelSerializer):
             'id', 'concept', 'concept_name',
             'subtopic_name', 'topic_name', 'subject_name',
             'mastery', 'ease_factor', 'interval_days', 'next_review',
-            'last_score', 'last_studied', 'revision_count', 'carryover_flag'
+            'last_score', 'last_studied', 'revision_count', 'carryover_flag','points','streak'
         ]
 
 class UpdateProgressSerializer(serializers.Serializer):

@@ -14,41 +14,25 @@ class Exam(models.Model):
     def __str__(self):
         return self.name
 
-
 class Subject(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='subjects')
     name = models.TextField()
     weightage = models.FloatField(default=1.0)
-
-    def __str__(self):
-        return self.name
-
 
 class Topic(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='topics')
     name = models.TextField()
     weightage = models.FloatField(default=1.0)
-
-    def __str__(self):
-        return self.name
-
 
 class Subtopic(models.Model):
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='subtopics')
     name = models.TextField()
     weightage = models.FloatField(default=1.0)
-
-    def __str__(self):
-        return self.name
-
 
 class Concept(models.Model):
-    subtopic = models.ForeignKey(Subtopic, on_delete=models.CASCADE)
+    subtopic = models.ForeignKey(Subtopic, on_delete=models.CASCADE, related_name='concepts')
     name = models.TextField()
     description = models.TextField(blank=True)
-    estimated_time = models.IntegerField(default=30)  # minutes
+    estimated_time = models.IntegerField(default=30)
     weightage = models.FloatField(default=1.0)
     resources = models.JSONField(default=dict, blank=True)
-
-    def __str__(self):
-        return self.name

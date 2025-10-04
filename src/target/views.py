@@ -19,12 +19,15 @@ class DailyTargetViewSet(viewsets.ModelViewSet):
     serializer_class = DailyTargetSerializer
 
     def get_queryset(self):
-        user = User.objects.get(id=1)
+        # user = User.objects.get(id=1)
+        user=self.request.user
+
         return DailyTarget.objects.filter(user=user)
 
     @action(detail=False, methods=["post"])
     def generate(self, request):
-        user = User.objects.get(id=1)
+        # user = User.objects.get(id=1)
+        user=request.user
         study_date = request.data.get("study_date", str(date.today()))
         budget = int(request.data.get("budget", 180))
         exam_date = request.data.get("exam_date", None)

@@ -8,7 +8,7 @@ from .models import Exam, Subject, Topic, Subtopic, Concept
 class ConceptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Concept
-        fields = ('id', 'subtopic', 'name',  'description', 'estimated_time', 'weightage',  'resources', 'created_at', 'updated_at')
+        fields = ('id', 'subtopic', 'name',  'description', 'estimated_time', 'weightage',  'resources' )
 
 # ------------------------
 # Subtopic Serializer
@@ -18,7 +18,7 @@ class SubtopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subtopic
-        fields = ('id', 'topic', 'name', 'weightage', 'concepts', 'created_at', 'updated_at')
+        fields = ('id', 'topic', 'name', 'weightage', 'concepts' )
 
 # ------------------------
 # Topic Serializer
@@ -28,7 +28,7 @@ class TopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Topic
-        fields = ('id', 'subject', 'name', 'weightage', 'subtopics', 'created_at', 'updated_at')
+        fields = ('id', 'subject', 'name', 'weightage', 'subtopics' )
 
 # ------------------------
 # Subject Serializer
@@ -38,7 +38,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        fields = ('id', 'exam', 'name', 'weightage', 'topics', 'created_at', 'updated_at')
+        fields = ('id', 'exam', 'name', 'weightage', 'topics' )
 
 # ------------------------
 # Exam Serializer
@@ -48,4 +48,4 @@ class ExamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exam
-        fields = ('id', 'name',  'start_date', 'end_date', 'subjects', 'created_at', 'updated_at')
+        fields = ('id', 'name',  'start_date', 'end_date', 'subjects', 'created_at', 'updated_at' )
