@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'progress',
     'leaderboard',
     'achievement',
-    'authentication',
+    'authentication.apps.AuthenticationConfig',
     'corsheaders',
     
     

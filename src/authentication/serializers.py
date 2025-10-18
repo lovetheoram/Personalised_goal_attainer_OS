@@ -18,9 +18,20 @@ class UserAchievementSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(read_only=True)
+    profile = ProfileSerializer()
     achievements = UserAchievementSerializer(many=True, source="userachievement_set", read_only=True)
 
     class Meta:
         model = User
         fields = ["id", "username", "email", "exam_year", "profile", "achievements"]
+
+    def update(self,instance,validated_data):
+        profile_data=validated_data.pop("profile",None)
+        instance=super().update(instance,validated_data)
+
+        if profile_data is not None:
+            profile=getattr(instance,"profile",None)
+            for attr,value in profile_data.items():
+                setattr(profile,attr,value)
+            profile.save()
+        return instance

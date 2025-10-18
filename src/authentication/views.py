@@ -56,6 +56,7 @@ class ProfileView(APIView):
         return Response(serializer.data)
 
     def patch(self, request):  # allow updating profile
+        print(request.data)
         serializer = UserSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
