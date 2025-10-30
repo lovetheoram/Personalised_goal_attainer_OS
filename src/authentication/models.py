@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 # ✅ Custom User Model (extend if needed)
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    exam_year = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.username

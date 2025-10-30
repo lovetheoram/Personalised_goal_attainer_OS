@@ -1,13 +1,14 @@
-from target.models import DailyTarget
+from target.models import PlanTask
 from langchain_google_genai import ChatGoogleGenerativeAI
 import json
 from datetime import date
 from progress.services import update_progress
 from syllabus.models import Concept
+from target.services import get_latest_plan_tasks
 
 def generate_ai_quiz(user, study_date=None, num_questions=3):
     study_date = study_date or date.today()
-    targets = DailyTarget.objects.filter(user=user, study_date=study_date)
+    targets =  get_latest_plan_tasks(user, study_date)
     questions = []
 
     if not targets.exists():

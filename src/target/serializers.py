@@ -1,14 +1,21 @@
+# target/serializers.py
 from rest_framework import serializers
-from .models import DailyTarget
+from .models import TargetPlan, PlanTask
+from planner.serializers import GoalSerializer, MindStateSerializer
+from syllabus.serializers import ConceptSerializer  # you should have a serializer for Concept
 
-class DailyTargetSerializer(serializers.ModelSerializer):
-    concept_name = serializers.CharField(source="concept.name", read_only=True)
-    topic_name = serializers.CharField(source="concept.topic.name", read_only=True)
+class PlanTaskSerializer(serializers.ModelSerializer):
+    concept = ConceptSerializer(read_only=True)
 
     class Meta:
-        model = DailyTarget
-        fields = ["id", "study_date", "concept", "concept_name", "topic_name", "allocated_time"]
+        model = PlanTask
+        fields = ['id', 'concept', 'allocated_minutes', 'scheduled_start', 'scheduled_end', 'progress_snapshot', 'decision_log']
 
+class TargetPlanSerializer(serializers.ModelSerializer):
+    tasks = PlanTaskSerializer(many=True, read_only=True)
+    mindstate = MindStateSerializer(read_only=True)
+    goal = GoalSerializer(read_only=True)
 
-
-
+    class Meta:
+        model = TargetPlan
+        fields = ['id', 'plan_date', 'plan_type', 'budget_minutes', 'weights', 'tasks', 'mindstate', 'goal']

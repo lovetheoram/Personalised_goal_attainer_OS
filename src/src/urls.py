@@ -13,4 +13,11 @@ urlpatterns = [
     path('leaderboard/',include('leaderboard.urls')),
     path('achievements/',include('achievement.urls')),
     path('auth/',include('authentication.urls')),
+    path('planner/',include('planner.urls')),
+    path('diary/',include('diary.urls')),
+    path('notifications/',include('notifications.urls')),
+    path('api_gateway/',include('api_gateway.urls')),
+    path('analytics/',include('analytics.urls')),
+    path('ai_engine/',include('ai_engine.urls')),
+    
 ]

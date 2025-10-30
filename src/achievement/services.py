@@ -1,9 +1,11 @@
 from datetime import timedelta
 from django.utils.timezone import now
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 from .models import Achievement, UserAchievement
 from progress.models import UserConceptProgress
-from target.models import DailyTarget
+from target.models import TargetPlan
+from planner.models import MindState, Goal
+from diary.models import DiaryEntry
 
 def check_achievements(user):
     """
@@ -13,7 +15,9 @@ def check_achievements(user):
     today = now().date()
     achievements = Achievement.objects.all()
     user_progress = UserConceptProgress.objects.filter(user=user)
-    today_targets = DailyTarget.objects.filter(user=user, study_date=today)
+    today_targets = TargetPlan.objects.filter(user=user, study_date=today)
+    mindstate = MindState.objects.filter(user=user, date=today).first()
+    active_goals = Goal.objects.filter(user=user, status='active')
 
     unlocked = []
 

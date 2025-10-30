@@ -1,34 +1,20 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model
 from .models import UserConceptProgress
 from .serializers import UserProgressSerializer, UpdateProgressSerializer
 from .services import update_progress, update_progress_bulk, get_user_progress, get_weak_concepts
-from syllabus.models import Concept
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-from .models import UserConceptProgress
-from syllabus.models import Subject, Topic, Subtopic, Concept
-from .serializers import UserProgressSerializer
-
-User = get_user_model()
-
+from syllabus.models import Concept, Subject
 
 class UserProgressViewSet(viewsets.ModelViewSet):
     """
-    ModelViewSet to handle user progress on concepts.
-    Supports listing, retrieving, and custom actions for mastery updates.
+    Handles user progress on concepts.
+    Includes full listing, mastery updates, analytics, and tree structure.
     """
-    queryset = UserConceptProgress.objects.all()
     serializer_class = UserProgressSerializer
 
     def get_queryset(self):
-        # Replace with request.user in production
-        # user = User.objects.get(id=1)
-        user=self.request.user
+        user = self.request.user
         return UserConceptProgress.objects.filter(user=user)\
             .select_related('concept__subtopic__topic__subject')\
             .order_by(
@@ -38,20 +24,20 @@ class UserProgressViewSet(viewsets.ModelViewSet):
                 'concept'
             )
 
+    # ---------------------------
+    # 1️⃣ Full progress
+    # ---------------------------
     @action(detail=False, methods=["get"])
     def full_progress(self, request):
-        """Fetch all user progress"""
-        # user = User.objects.get(id=1)
-        user=request.user
-        qs = get_user_progress(user)
+        qs = get_user_progress(request.user)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
+    # ---------------------------
+    # 2️⃣ Update single mastery
+    # ---------------------------
     @action(detail=False, methods=["post"])
     def update_mastery(self, request):
-        """Update mastery for a single concept"""
-        # user = User.objects.get(id=1)
-        user=request.user
         serializer = UpdateProgressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -60,46 +46,41 @@ class UserProgressViewSet(viewsets.ModelViewSet):
         understood = serializer.validated_data.get("understood")
         concept = Concept.objects.get(id=concept_id)
 
-        ucp = update_progress(user, concept, score, understood)
+        ucp = update_progress(request.user, concept, score, understood)
         return Response(self.get_serializer(ucp).data, status=status.HTTP_200_OK)
 
+    # ---------------------------
+    # 3️⃣ Bulk update mastery
+    # ---------------------------
     @action(detail=False, methods=["post"])
     def update_mastery_bulk(self, request):
-        """Update mastery for multiple concepts"""
-        # user = User.objects.get(id=1)
-        user=request.user
-
         results = request.data.get("results", [])
         if not results:
             return Response({"error": "No results provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        updated = update_progress_bulk(user, results)
+        updated = update_progress_bulk(request.user, results)
         serializer = self.get_serializer(updated, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    # ---------------------------
+    # 4️⃣ Weak concepts
+    # ---------------------------
     @action(detail=False, methods=["get"])
     def weak_concepts(self, request):
-        """Fetch concepts with mastery < 0.5"""
-        # user = User.objects.get(id=1)
-        user=request.user
-        
-        qs = get_weak_concepts(user)
+        qs = get_weak_concepts(request.user)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
-
-
-# purnima22121
+    # ---------------------------
+    # 5️⃣ Tree structure
+    # ---------------------------
     @action(detail=False, methods=["get"])
     def tree(self, request):
-        user = request.user
         progresses = self.get_queryset()
         progress_map = {p.concept_id: p for p in progresses}
 
         tree_data = []
-        subjects = Subject.objects.prefetch_related(
-            'topics__subtopics__concepts'
-        ).all()
+        subjects = Subject.objects.prefetch_related('topics__subtopics__concepts').all()
 
         for subj in subjects:
             subj_data = {"subject_name": subj.name, "topics": []}
@@ -115,8 +96,8 @@ class UserProgressViewSet(viewsets.ModelViewSet):
                             "mastery": getattr(progress, "mastery", 0.0),
                             "points": getattr(progress, "points", 0),
                             "ease_factor": getattr(progress, "ease_factor", 2.5),
+                            "status": getattr(progress, "status", "learning")
                         })
-                    # sort concepts by mastery descending
                     sub_data["concepts"].sort(key=lambda x: x["mastery"], reverse=True)
                     topic_data["subtopics"].append(sub_data)
                 subj_data["topics"].append(topic_data)
@@ -125,7 +106,7 @@ class UserProgressViewSet(viewsets.ModelViewSet):
         return Response(tree_data, status=status.HTTP_200_OK)
 
     # ---------------------------
-    # 2️⃣ Concept detail endpoint
+    # 6️⃣ Concept detail
     # ---------------------------
     @action(detail=False, methods=["get"])
     def concept_detail(self, request):

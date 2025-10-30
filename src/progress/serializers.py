@@ -10,13 +10,26 @@ class UserProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserConceptProgress
         fields = [
-            'id', 'concept', 'concept_name',
-            'subtopic_name', 'topic_name', 'subject_name',
-            'mastery', 'ease_factor', 'interval_days', 'next_review',
-            'last_score', 'last_studied', 'revision_count', 'carryover_flag','points','streak'
+            'id',
+            'concept_id',
+            'concept_name',
+            'subtopic_name',
+            'topic_name',
+            'subject_name',
+            'mastery',
+            'points',
+            'ease_factor',
+            'interval_days',
+            'next_review',
+            'carryover_flag',
+            'revision_count',
+            'streak',
+            'status',
+            'last_studied',
         ]
+
 
 class UpdateProgressSerializer(serializers.Serializer):
     concept_id = serializers.IntegerField()
-    score = serializers.FloatField(min_value=0.0, max_value=1.0, required=False)
-    understood = serializers.ChoiceField(choices=["yes", "partial", "no"], required=False)
+    score = serializers.FloatField(required=False)
+    understood = serializers.ChoiceField(choices=['yes','partial','no'], required=False)

@@ -22,7 +22,7 @@ class SignupView(generics.CreateAPIView):
             username=data["username"],
             email=data["email"],
             password=data["password"],
-            exam_year=data.get("exam_year")
+            
         )
         return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 

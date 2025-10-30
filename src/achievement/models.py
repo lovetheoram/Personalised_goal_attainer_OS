@@ -11,6 +11,7 @@ class Achievement(models.Model):
         ("daily_target", "Daily Target Completion"),
         ("weak_area", "Weak Area Improvement"),
         ("points", "Points"),
+        
     ]
 
     name = models.CharField(max_length=100)
